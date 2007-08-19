@@ -1,8 +1,7 @@
-
 PyCDDB
 
 Roland Schäuble
-     _________________________________________________________
+     __________________________________________________________
 
    Table of Contents
    1. What is PyCDDB?
@@ -18,7 +17,7 @@ Roland Schäuble
    3. Download
 
    a Python-Module for CDDB-Access
-     _________________________________________________________
+     __________________________________________________________
 
 Chapter 1. What is PyCDDB?
 
@@ -34,26 +33,26 @@ Chapter 1. What is PyCDDB?
    PyCDDB requires a disc-ID, which is generated from the track
    starting positions. For this purpose, discid
    (http://discid.sourceforge.net can be used.
-     _________________________________________________________
+     __________________________________________________________
 
 Chapter 2. PyCDDB
 
    PyCDDB is a module, written in Python, to handle communication
    to the CDDB-server
-     _________________________________________________________
+     __________________________________________________________
 
 2.1. Supported Platforms
 
    The Python-Module should run on all platforms, where
-   communication through http-connections is supported from
-   urllib module.
+   communication through http-connections is supported from urllib
+   module.
 
    Communication to the CDDB-server takes place via a
    http-connection. For this reason, the computer must be
    connected to the internet in some way, when making queries.
-   Default CDDB-server is http://freedb.freedb.org but the name
-   of the used server can be chosen by the client application.
-     _________________________________________________________
+   Default CDDB-server is http://freedb.freedb.org but the name of
+   the used server can be chosen by the client application.
+     __________________________________________________________
 
 2.2. Installation
 
@@ -66,7 +65,7 @@ Chapter 2. PyCDDB
      * Copy the file PyCDDB.py to the apropriate Python-Libarary
        directory of your Python installation. This is for example
        /usr/lib/python-2.2 on a Unix-like platform
-     _________________________________________________________
+     __________________________________________________________
 
 2.3. Usage
 
@@ -77,20 +76,19 @@ Chapter 2. PyCDDB
    compact disc:
 
     1. Get the disc-ID for the compact disc, you want to have the
-       information about (line 1). You can use the
-       discid-Program, which is available at
-       http://discid.sourceforge.net or some other program, which
-       generates the disc-ID in the appropriate form. The
-       required format of the disc-ID for PyCDDB is as follows:
-8HexDigitID NumberOfTracks Track1StartFrame Track2StartFrame..TrackNSta
-rtFrame DiscLengthInSeconds
+       information about (line 1). You can use the discid-Program,
+       which is available at http://discid.sourceforge.net or some
+       other program, which generates the disc-ID in the
+       appropriate form. The required format of the disc-ID for
+       PyCDDB is as follows:
+8HexDigitID NumberOfTracks Track1StartFrame Track2StartFrame..TrackNStar
+tFrame DiscLengthInSeconds
        If you want to use another program to generate the disc-ID
        for PyCDDB, it has to use the same format. Another well
        known program to calculate the disc-ID is cd-discid
        http://lly.org/~rcw/cd-discid/
     2. Create an instance of PyCDDB (line 3)
-    3. Send a query to the CDDB-server, using the disc-ID (line
-       4)
+    3. Send a query to the CDDB-server, using the disc-ID (line 4)
     4. Check, if the disc is known by the CDDB-server. For some
        discs, more than one entry exist in the CDDB-Database. in
        this case, you have to choose, which one to read (lines
@@ -107,8 +105,8 @@ rtFrame DiscLengthInSeconds
  6:     if (len(items) > 1): # Multiple matches
  7:         print "Multiple matches found. Choose one of:"
  8:         for item in range(len(items)):
- 9:             print "%d : %s %s" % (item, items[item]['category'], it
-ems[item]['title'])
+ 9:             print "%d : %s %s" % (item, items[item]['category'], ite
+ms[item]['title'])
 10:         index = input("which item?")
 11:     else: # single match
 12:         index = 0
@@ -121,12 +119,12 @@ ems[item]['title'])
 19:             print "Track: %02d %s" % (track, info['TTITLE'][track])
 16:         print 40 * '-'
 21:     else:
-22:         print >> sys.stderr, "Read-Status %d: '%s.'" % (db.status()
-, db.message())
+22:         print >> sys.stderr, "Read-Status %d: '%s.'" % (db.status(),
+ db.message())
 23: else:
-24:     print >> sys.stderr, "Query-Status %d: '%s.'" % (db.status(), d
-b.message())
-     _________________________________________________________
+24:     print >> sys.stderr, "Query-Status %d: '%s.'" % (db.status(), db
+.message())
+     __________________________________________________________
 
 2.3.1. Data structure of query-result
 
@@ -153,7 +151,7 @@ b.message())
     'title': 'Various / Caf\xe9 del Mar - Volumen Cinco'
   }
 ]
-     _________________________________________________________
+     __________________________________________________________
 
 2.3.2. Data structure of read-result
 
@@ -184,11 +182,19 @@ b.message())
   'DYEAR': '1998',
   'DGENRE': 'Ambient'
 }
-     _________________________________________________________
+     __________________________________________________________
 
 Chapter 3. Download
+
+   PyCDDB is hosted at http://sourceforge.net
 
    PyCDDB homepage is http://pycddb.sourceforge.net
 
    The latest version of PyCDDB can always be found on
    http://www.sourceforge.net/projects/pycddb
+
+   The subversion repository can be browsed under
+   http://pycddb.svn.sourceforge.net
+
+   The authors homepage can be found on
+   http://homepage.sunrise.ch/mysunrise/rschaeuble/

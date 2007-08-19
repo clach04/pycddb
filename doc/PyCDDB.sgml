@@ -217,10 +217,19 @@ and other information for digital audio compact discs.
 	<chapter>
 		<title>Download</title>
 		<para>
+		  &PYCDDB; is hosted at <ulink url="http://sourceforge.net"></ulink>
+		</para>
+		<para>
 		&PYCDDB; homepage is <ulink url="http://pycddb.sourceforge.net"></ulink>
     </para>
 		<para>
 		The latest version of &PYCDDB; can always be found on <ulink url="http://www.sourceforge.net/projects/pycddb"></ulink>
     </para>
+		<para>
+		  The subversion repository can be browsed under <ulink url="http://pycddb.svn.sourceforge.net"</ulink>
+		</para>
+		<para>
+		  The authors homepage can be found on <ulink url="http://homepage.sunrise.ch/mysunrise/rschaeuble/"</ulink>
+		</para>
 	</chapter>
 </book>
