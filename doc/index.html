@@ -1,0 +1,501 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN""http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>PyCDDB</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"></HEAD
+><BODY
+CLASS="BOOK"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="BOOK"
+><A
+NAME="AEN1"
+></A
+><DIV
+CLASS="TITLEPAGE"
+><H1
+CLASS="TITLE"
+><A
+NAME="AEN1"
+>PyCDDB</A
+></H1
+><H3
+CLASS="AUTHOR"
+><A
+NAME="AEN5"
+></A
+>Roland Schäuble</H3
+><HR></DIV
+><DIV
+CLASS="TOC"
+><DL
+><DT
+><B
+>Table of Contents</B
+></DT
+><DT
+>1. <A
+HREF="#AEN8"
+>What is PyCDDB?</A
+></DT
+><DT
+>2. <A
+HREF="#AEN24"
+>PyCDDB</A
+></DT
+><DD
+><DL
+><DT
+>2.1. <A
+HREF="#AEN28"
+>Supported Platforms</A
+></DT
+><DT
+>2.2. <A
+HREF="#AEN34"
+>Installation</A
+></DT
+><DT
+>2.3. <A
+HREF="#AEN50"
+>Usage</A
+></DT
+><DD
+><DL
+><DT
+>2.3.1. <A
+HREF="#AEN78"
+>Data structure of query-result</A
+></DT
+><DT
+>2.3.2. <A
+HREF="#AEN95"
+>Data structure of read-result</A
+></DT
+></DL
+></DD
+></DL
+></DD
+><DT
+>3. <A
+HREF="#AEN125"
+>Download</A
+></DT
+></DL
+></DIV
+><FONT
+COLOR="RED"
+>a Python-Module for CDDB-Access</FONT
+><DIV
+CLASS="CHAPTER"
+><HR><H1
+><A
+NAME="AEN8"
+></A
+>Chapter 1. What is PyCDDB?</H1
+><P
+><B
+CLASS="COMMAND"
+>PyCDDB</B
+> is a Python-Module (<A
+HREF="http://www.python.org"
+TARGET="_top"
+>http://www.python.org</A
+>) to access a CDDB-server to get information for audio compact discs like:
+<P
+></P
+><UL
+><LI
+><P
+>Artist</P
+></LI
+><LI
+><P
+>Disc title</P
+></LI
+><LI
+><P
+>Track titles</P
+></LI
+></UL
+>
+and other information for digital audio compact discs.</P
+><P
+><B
+CLASS="COMMAND"
+>PyCDDB</B
+> requires a disc-ID, which is generated from the track starting positions. For this purpose, <B
+CLASS="COMMAND"
+>discid</B
+> (<A
+HREF="http://discid.sourceforge.net"
+TARGET="_top"
+>http://discid.sourceforge.net</A
+> can be used.</P
+></DIV
+><DIV
+CLASS="CHAPTER"
+><HR><H1
+><A
+NAME="AEN24"
+></A
+>Chapter 2. PyCDDB</H1
+><P
+><B
+CLASS="COMMAND"
+>PyCDDB</B
+> is a module, written in Python, to handle communication to the CDDB-server</P
+><DIV
+CLASS="SECTION"
+><HR><H2
+CLASS="SECTION"
+><A
+NAME="AEN28"
+>2.1. Supported Platforms</A
+></H2
+><P
+>The Python-Module should run on all platforms, where communication through http-connections is supported from <B
+CLASS="COMMAND"
+>urllib</B
+> module.</P
+><P
+>Communication to the CDDB-server takes place via a http-connection. For this reason, the computer must be connected to the internet in some way, when making queries. Default CDDB-server is <A
+HREF="http://freedb.freedb.org"
+TARGET="_top"
+>http://freedb.freedb.org</A
+> but the name of the used server can be chosen by the client application.</P
+></DIV
+><DIV
+CLASS="SECTION"
+><HR><H2
+CLASS="SECTION"
+><A
+NAME="AEN34"
+>2.2. Installation</A
+></H2
+><P
+>There are several ways to install <B
+CLASS="COMMAND"
+>PyCDDB</B
+> on your machine:</P
+><P
+></P
+><UL
+><LI
+><P
+>Use the RPM-Package for RPM-based systems.</P
+></LI
+><LI
+><P
+>Run (as a priviledged user) the Python-Setup script <B
+CLASS="COMMAND"
+>setup.py</B
+> from the source-distribution with <B
+CLASS="COMMAND"
+>install</B
+> parameter: <B
+CLASS="COMMAND"
+>$ python setup.py install</B
+></P
+></LI
+><LI
+><P
+>Copy the file <TT
+CLASS="FILENAME"
+>PyCDDB.py</TT
+> to the apropriate Python-Libarary directory of your Python installation. This is for example <TT
+CLASS="FILENAME"
+>/usr/lib/python-2.2</TT
+> on a Unix-like platform</P
+></LI
+></UL
+></DIV
+><DIV
+CLASS="SECTION"
+><HR><H2
+CLASS="SECTION"
+><A
+NAME="AEN50"
+>2.3. Usage</A
+></H2
+><P
+>An example of how to use the PyCDDB-Module is given in the distribution (see file <TT
+CLASS="FILENAME"
+>TestPyCDDB.py</TT
+>).</P
+><P
+>In general, 5 steps are required, to get information about a compact disc:
+<P
+></P
+><OL
+TYPE="1"
+><LI
+><P
+>Get the disc-ID for the compact disc, you want to have the information about (line 1). You can use the discid-Program, which is available at <A
+HREF="http://discid.sourceforge.net"
+TARGET="_top"
+>http://discid.sourceforge.net</A
+> or some other program, which generates the disc-ID in the appropriate form. The required format of the disc-ID for <B
+CLASS="COMMAND"
+>PyCDDB</B
+> is as follows:</P
+><PRE
+CLASS="SCREEN"
+>8HexDigitID NumberOfTracks Track1StartFrame Track2StartFrame..TrackNStartFrame DiscLengthInSeconds</PRE
+><P
+>If you want to use another program to generate the disc-ID for <B
+CLASS="COMMAND"
+>PyCDDB</B
+>, it has to use the same format. Another well known program to calculate the disc-ID is <B
+CLASS="COMMAND"
+>cd-discid <A
+HREF="http://lly.org/~rcw/cd-discid/"
+TARGET="_top"
+>http://lly.org/~rcw/cd-discid/</A
+></B
+></P
+></LI
+><LI
+><P
+>Create an instance of <B
+CLASS="COMMAND"
+>PyCDDB</B
+> (line 3)</P
+></LI
+><LI
+><P
+>Send a query to the CDDB-server, using the disc-ID (line 4)</P
+></LI
+><LI
+><P
+>Check, if the disc is known by the CDDB-server. For some discs, more than one entry exist in the CDDB-Database. in this case, you have to choose, which one to read (lines 5...12)</P
+></LI
+><LI
+><P
+>Get the information about the specified disc from CDDB-server (line 14).</P
+></LI
+><LI
+><P
+>Use information for whatever you want to (lines 16..20)</P
+></LI
+></OL
+></P
+><P
+><PRE
+CLASS="SCREEN"
+> 1: discid = ... # get disc-ID from somewhere
+ 2: 
+ 3: db = PyCDDB.PyCDDB()
+ 4: items = db.query(discid)
+ 5: if len(items) &#62; 0: # Items found?
+ 6:     if (len(items) &#62; 1): # Multiple matches
+ 7:         print "Multiple matches found. Choose one of:"
+ 8:         for item in range(len(items)):
+ 9:             print "%d : %s %s" % (item, items[item]['category'], items[item]['title'])
+10:         index = input("which item?")
+11:     else: # single match
+12:         index = 0
+13: 
+14:     info = db.read(items[index])
+15:     if len(info['TTITLE']) &#62; 0: # read info
+16:         print 40 * '-'
+17:         print "Title: %s" % info['DTITLE']
+18:         for track in range(len(info['TTITLE'])):
+19:             print "Track: %02d %s" % (track, info['TTITLE'][track])
+16:         print 40 * '-'
+21:     else:
+22:         print &#62;&#62; sys.stderr, "Read-Status %d: '%s.'" % (db.status(), db.message())
+23: else:
+24:     print &#62;&#62; sys.stderr, "Query-Status %d: '%s.'" % (db.status(), db.message())</PRE
+></P
+><DIV
+CLASS="SECTION"
+><HR><H3
+CLASS="SECTION"
+><A
+NAME="AEN78"
+>2.3.1. Data structure of query-result</A
+></H3
+><P
+><B
+CLASS="COMMAND"
+>PyCDDB.query()</B
+> returns an array of found matces. The array is empty, if no matches for the given disc-ID are found by the CDDB-server. Each match is a dictionary with the following entries:</P
+><P
+></P
+><UL
+><LI
+><P
+><B
+CLASS="COMMAND"
+>'category':</B
+> Name of category in CDDB</P
+></LI
+><LI
+><P
+><B
+CLASS="COMMAND"
+>'disc_id':</B
+> 8 hexdigit disc-ID</P
+></LI
+><LI
+><P
+><B
+CLASS="COMMAND"
+>'title':</B
+> Disc title</P
+></LI
+></UL
+><P
+>A single item of read-output can be used, to feed <B
+CLASS="COMMAND"
+>query</B
+></P
+><PRE
+CLASS="SCREEN"
+>[ { 'category': 'rock',
+     'disc_id': 'e512640f',
+     'title': 'Caf\xe9 Del Mar Vol.5 / Caf\xe9 Del Mar Vol.5'
+  },
+  { 'category': 'misc',
+    'disc_id': 'e512640f',
+    'title': 'Caf\xe9 Del Mar / Volumen Cinco'
+  },
+  { 'category': 'data',
+    'disc_id': 'e512640f',
+    'title': 'Various / Caf\xe9 del Mar - Volumen Cinco'
+  }
+]				</PRE
+></DIV
+><DIV
+CLASS="SECTION"
+><HR><H3
+CLASS="SECTION"
+><A
+NAME="AEN95"
+>2.3.2. Data structure of read-result</A
+></H3
+><P
+><B
+CLASS="COMMAND"
+>PyCDDB.query()</B
+> returns a dictionary, consisting of the following items:</P
+><P
+></P
+><UL
+><LI
+><P
+><B
+CLASS="COMMAND"
+>'DTITLE':</B
+> Disc title</P
+></LI
+><LI
+><P
+><B
+CLASS="COMMAND"
+>'TTITLE':</B
+> Array of track titles</P
+></LI
+><LI
+><P
+><B
+CLASS="COMMAND"
+>'EXTD':</B
+> Extra disc info</P
+></LI
+><LI
+><P
+><B
+CLASS="COMMAND"
+>'EXTT':</B
+> Array of extra track infos</P
+></LI
+><LI
+><P
+><B
+CLASS="COMMAND"
+>'DISCID':</B
+> Disc-ID</P
+></LI
+><LI
+><P
+><B
+CLASS="COMMAND"
+>'PLAYORDER':</B
+> normally empty for non-local CDDBs</P
+></LI
+><LI
+><P
+><B
+CLASS="COMMAND"
+>'DYEAR':</B
+> Year of release</P
+></LI
+><LI
+><P
+><B
+CLASS="COMMAND"
+>'DGENGRE':</B
+> Genre-info for disc</P
+></LI
+></UL
+><PRE
+CLASS="SCREEN"
+>{ 'TTITLE': ['Mumbai theme tune',
+             'More than ever people',
+             'Appreciation',
+             :
+             ...more track titles here...
+             :
+             'Close Cover'],
+  'EXTD': 'Compiled with love by Jose Padilla \\n YEAR: 1998',
+  'EXTT': ['', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
+  'DISCID': 'e512640f',
+  'PLAYORDER': '',
+  'DTITLE': 'Caf\xe9 Del Mar Vol.5 / Caf\xe9 Del Mar Vol.5',
+  'DYEAR': '1998',
+  'DGENRE': 'Ambient'
+}</PRE
+></DIV
+></DIV
+></DIV
+><DIV
+CLASS="CHAPTER"
+><HR><H1
+><A
+NAME="AEN125"
+></A
+>Chapter 3. Download</H1
+><P
+>		<B
+CLASS="COMMAND"
+>PyCDDB</B
+> homepage is <A
+HREF="http://pycddb.sourceforge.net"
+TARGET="_top"
+>http://pycddb.sourceforge.net</A
+>
+    </P
+><P
+>		The latest version of <B
+CLASS="COMMAND"
+>PyCDDB</B
+> can always be found on <A
+HREF="http://www.sourceforge.net/projects/pycddb"
+TARGET="_top"
+>http://www.sourceforge.net/projects/pycddb</A
+>
+    </P
+></DIV
+></DIV
+><A href="http://sourceforge.net"> <IMG src="http://sourceforge.net/sflogo.php?group_id=82129&amp;type=5" width="210" height="62" border="0" alt="SourceForge.net Logo" /></A></BODY
+></HTML
+>

@@ -1,0 +1,226 @@
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V4.1//EN" [
+<!ENTITY PYCDDB "<command>PyCDDB</command>">]>
+<book>
+	<title>PyCDDB</title>
+	<subtitle>a Python-Module for CDDB-Access</subtitle>
+	<bookinfo>
+		<author>
+			<firstname>Roland</firstname>
+			<surname>Sch&auml;uble</surname>
+		</author>
+	</bookinfo>
+
+	<chapter>
+		<title>What is PyCDDB?</title>
+		<para>
+&PYCDDB; is a Python-Module (<ulink url="http://www.python.org"></ulink>) to access a CDDB-server to get information for audio compact discs like:
+<itemizedlist>
+				<listitem>
+					<para>Artist</para>
+				</listitem>
+				<listitem>
+					<para>Disc title</para>
+					</listitem>
+				<listitem>
+					<para>Track titles</para>
+				</listitem>
+ </itemizedlist>
+and other information for digital audio compact discs.
+</para>
+		<para>
+&PYCDDB; requires a disc-ID, which is generated from the track starting positions. For this purpose, <command>discid</command> (<ulink url="http://discid.sourceforge.net"></ulink> can be used.
+</para>
+	</chapter>
+
+	<chapter>
+		<title>PyCDDB</title>
+		<para>&PYCDDB; is a module, written in Python, to handle communication to the CDDB-server</para>
+		<section>
+			<title>Supported Platforms</title>
+			<para>The Python-Module should run on all platforms, where communication through http-connections is supported from <command>urllib</command> module.</para>
+			<para>Communication to the CDDB-server takes place via a http-connection. For this reason, the computer must be connected to the internet in some way, when making queries. Default CDDB-server is <ulink url="http://freedb.freedb.org"></ulink> but the name of the used server can be chosen by the client application.</para>
+		</section>
+
+		<section>
+			<title>Installation</title>
+			<para>There are several ways to install &PYCDDB; on your machine:</para>
+			<itemizedlist>
+				<listitem>
+					<para>Use the RPM-Package for RPM-based systems.</para>
+				</listitem>
+
+				<listitem>
+			<para>Run (as a priviledged user) the Python-Setup script <command>setup.py</command> from the source-distribution with <command>install</command> parameter: <command>$ python setup.py install</command></para>
+				</listitem>
+
+				<listitem>
+					<para>Copy the file <filename>PyCDDB.py</filename> to the apropriate Python-Libarary directory of your Python installation. This is for example <filename>/usr/lib/python-2.2</filename> on a Unix-like platform</para>
+				</listitem>
+			</itemizedlist>
+
+		</section>
+
+		<section>
+			<title>Usage</title>
+			<para>An example of how to use the PyCDDB-Module is given in the distribution (see file <filename>TestPyCDDB.py</filename>).
+</para>
+			<para>In general, 5 steps are required, to get information about a compact disc:
+<orderedlist>
+					<listitem>
+						<para>Get the disc-ID for the compact disc, you want to have the information about (line 1). You can use the discid-Program, which is available at <ulink url="http://discid.sourceforge.net"></ulink> or some other program, which generates the disc-ID in the appropriate form. The required format of the disc-ID for &PYCDDB; is as follows:</para>
+			<screen>8HexDigitID NumberOfTracks Track1StartFrame Track2StartFrame..TrackNStartFrame DiscLengthInSeconds</screen>
+			<para>If you want to use another program to generate the disc-ID for &PYCDDB;, it has to use the same format. Another well known program to calculate the disc-ID is <command>cd-discid <ulink url="http://lly.org/~rcw/cd-discid/"></ulink></command></para>
+					</listitem>
+
+					<listitem>
+						<para>Create an instance of &PYCDDB; (line 3)</para>
+					</listitem>
+
+					<listitem>
+						<para>Send a query to the CDDB-server, using the disc-ID (line 4)</para>
+					</listitem>
+
+					<listitem>
+						<para>Check, if the disc is known by the CDDB-server. For some discs, more than one entry exist in the CDDB-Database. in this case, you have to choose, which one to read (lines 5...12)</para>
+					</listitem>
+
+					<listitem>
+						<para>Get the information about the specified disc from CDDB-server (line 14).</para>
+					</listitem>
+
+					<listitem>
+						<para>Use information for whatever you want to (lines 16..20)</para>
+					</listitem>
+				</orderedlist>
+</para>
+			<para>
+<screen>
+ 1: discid = ... # get disc-ID from somewhere
+ 2: 
+ 3: db = PyCDDB.PyCDDB()
+ 4: items = db.query(discid)
+ 5: if len(items) > 0: # Items found?
+ 6:     if (len(items) > 1): # Multiple matches
+ 7:         print "Multiple matches found. Choose one of:"
+ 8:         for item in range(len(items)):
+ 9:             print "%d : %s %s" % (item, items[item]['category'], items[item]['title'])
+10:         index = input("which item?")
+11:     else: # single match
+12:         index = 0
+13: 
+14:     info = db.read(items[index])
+15:     if len(info['TTITLE']) > 0: # read info
+16:         print 40 * '-'
+17:         print "Title: %s" % info['DTITLE']
+18:         for track in range(len(info['TTITLE'])):
+19:             print "Track: %02d %s" % (track, info['TTITLE'][track])
+16:         print 40 * '-'
+21:     else:
+22:         print >> sys.stderr, "Read-Status %d: '%s.'" % (db.status(), db.message())
+23: else:
+24:     print >> sys.stderr, "Query-Status %d: '%s.'" % (db.status(), db.message())
+</screen>
+</para>
+
+			<section>
+				<title>Data structure of query-result</title>
+				<para><command>PyCDDB.query()</command> returns an array of found matces. The array is empty, if no matches for the given disc-ID are found by the CDDB-server. Each match is a dictionary with the following entries:</para>
+				<itemizedlist>
+					<listitem>
+						<para><command>'category':</command> Name of category in CDDB</para>
+					</listitem>
+
+					<listitem>
+						<para><command>'disc_id':</command> 8 hexdigit disc-ID</para>
+					</listitem>
+
+					<listitem>
+						<para><command>'title':</command> Disc title</para>
+					</listitem>
+				</itemizedlist>
+				<para>A single item of read-output can be used, to feed <command>query</command></para>
+<screen>
+[ { 'category': 'rock',
+     'disc_id': 'e512640f',
+     'title': 'Caf\xe9 Del Mar Vol.5 / Caf\xe9 Del Mar Vol.5'
+  },
+  { 'category': 'misc',
+    'disc_id': 'e512640f',
+    'title': 'Caf\xe9 Del Mar / Volumen Cinco'
+  },
+  { 'category': 'data',
+    'disc_id': 'e512640f',
+    'title': 'Various / Caf\xe9 del Mar - Volumen Cinco'
+  }
+]				
+</screen>
+			</section>
+
+			<section>
+				<title>Data structure of read-result</title>
+				<para><command>PyCDDB.query()</command> returns a dictionary, consisting of the following items:</para>
+				<itemizedlist>
+					<listitem>
+						<para><command>'DTITLE':</command> Disc title</para>
+					</listitem>
+
+					<listitem>
+						<para><command>'TTITLE':</command> Array of track titles</para>
+					</listitem>
+
+					<listitem>
+						<para><command>'EXTD':</command> Extra disc info</para>
+					</listitem>
+
+					<listitem>
+						<para><command>'EXTT':</command> Array of extra track infos</para>
+					</listitem>
+
+					<listitem>
+						<para><command>'DISCID':</command> Disc-ID</para>
+					</listitem>
+
+					<listitem>
+						<para><command>'PLAYORDER':</command> normally empty for non-local CDDBs</para>
+					</listitem>
+
+					<listitem>
+						<para><command>'DYEAR':</command> Year of release</para>
+					</listitem>
+
+					<listitem>
+						<para><command>'DGENGRE':</command> Genre-info for disc</para>
+					</listitem>
+				</itemizedlist>
+				<screen>
+{ 'TTITLE': ['Mumbai theme tune',
+             'More than ever people',
+             'Appreciation',
+             :
+             ...more track titles here...
+             :
+             'Close Cover'],
+  'EXTD': 'Compiled with love by Jose Padilla \\n YEAR: 1998',
+  'EXTT': ['', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
+  'DISCID': 'e512640f',
+  'PLAYORDER': '',
+  'DTITLE': 'Caf\xe9 Del Mar Vol.5 / Caf\xe9 Del Mar Vol.5',
+  'DYEAR': '1998',
+  'DGENRE': 'Ambient'
+}
+</screen>
+
+			</section>
+		</section>
+	</chapter>
+
+	<chapter>
+		<title>Download</title>
+		<para>
+		&PYCDDB; homepage is <ulink url="http://pycddb.sourceforge.net"></ulink>
+    </para>
+		<para>
+		The latest version of &PYCDDB; can always be found on <ulink url="http://www.sourceforge.net/projects/pycddb"></ulink>
+    </para>
+	</chapter>
+</book>
