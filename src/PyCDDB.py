@@ -9,13 +9,18 @@ import string
 import re
 import socket
 
-__version__ = "0.1.3"
+__version__ = "0.1.4"
 
 class PyCDDB:
     def __init__(self, cddb_server = 'http://freedb.freedb.org/~cddb/cddb.cgi',
                  app = "PyCDDB", version = __version__):
         self.cddb_server = cddb_server
         self.user = getpass.getuser()
+        # check for whitespace in username
+        if string.find(self.user," ") >= 0:
+            # remove whitespace converting to %20 does not work
+            # so just remove whitespace
+            self.user = string.replace(self.user," ","")
         self.host = socket.gethostname()
         self.app = app
         self.version = version
